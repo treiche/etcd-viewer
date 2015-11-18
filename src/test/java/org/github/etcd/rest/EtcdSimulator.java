@@ -10,7 +10,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 
 public class EtcdSimulator {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         EtcdSimulator simulator = new EtcdSimulator();
         simulator.start();
     }
@@ -32,7 +32,7 @@ public class EtcdSimulator {
 
         sf.setResourceProvider(EtcdResource.class, new SingletonResourceProvider(etcdResource));
 
-        sf.setAddress("http://localhost:2379/");
+        sf.setAddress("http://localhost:4001/");
 
         endpointServer = sf.create();
 
@@ -44,6 +44,7 @@ public class EtcdSimulator {
             endpointServer.stop();
             endpointServer.destroy();
         }
+
         if (etcdResource != null) {
             etcdResource.close();
         }

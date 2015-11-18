@@ -10,10 +10,12 @@ import org.github.etcd.service.rest.EtcdNode;
 import org.github.etcd.service.rest.EtcdProxy;
 import org.github.etcd.service.rest.EtcdSelfStats;
 import org.github.etcd.service.rest.impl.EtcdProxyImpl;
+
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,9 +34,9 @@ public class TestEtcdProxy extends Assert {
 
         boolean hasClientURL = System.getProperty("etcd.clientURL") != null;
 
-        String clientURL = System.getProperty("etcd.clientURL", "http://localhost:2379/");
+        String clientURL = System.getProperty("etcd.clientURL", "http://localhost:4001/");
 
-//        clientURL = "http://192.168.122.103:4001/";
+// clientURL = "http://192.168.122.103:4001/";
         String username = "root";
         String password = "root";
         String token = DatatypeConverter.printBase64Binary((username + ":" + password).getBytes());
@@ -60,6 +62,7 @@ public class TestEtcdProxy extends Assert {
         if (etcdProxy != null) {
             etcdProxy.close();
         }
+
         if (simulator != null) {
             simulator.stop();
         }
@@ -90,7 +93,6 @@ public class TestEtcdProxy extends Assert {
     public void testGetMembers() {
         List<EtcdMember> members = etcdProxy.getMembers();
 
-
         assertNotNull(members);
         assertFalse(members.isEmpty());
 
@@ -99,6 +101,7 @@ public class TestEtcdProxy extends Assert {
             sb.append('\n');
             sb.append(m.toString());
         }
+
         log.info("The cluster members are:" + sb.toString());
     }
 
@@ -118,6 +121,7 @@ public class TestEtcdProxy extends Assert {
         String testName = new Throwable().getStackTrace()[1].getMethodName();
         return JUNIT_ROOT + "/" + testName;
     }
+
     @Test
     public void testSaveAndGetValueNode() {
         String key = createTestKey();
@@ -174,8 +178,7 @@ public class TestEtcdProxy extends Assert {
         try {
             retrieved = etcdProxy.getNode(key);
             fail("Node: " + key + " should be deleted");
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
     }
 
     @Test
@@ -198,8 +201,7 @@ public class TestEtcdProxy extends Assert {
         try {
             retrieved = etcdProxy.getNode(key);
             fail("Node: " + key + " should be deleted");
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
     }
 
     @Test
@@ -251,8 +253,7 @@ public class TestEtcdProxy extends Assert {
         try {
             retrieved = etcdProxy.getNode(key);
             fail("Node: " + key + " should be deleted");
-        } catch (Exception e) {
-        }
+        } catch (Exception e) { }
     }
 
     @Test
@@ -305,7 +306,7 @@ public class TestEtcdProxy extends Assert {
     public void testUpdateValue() {
         String key = createTestKey();
 
-        String[] values = new String[] { "initial value", "first update", "second update", "third update" };
+        String[] values = new String[] {"initial value", "first update", "second update", "third update"};
 
         etcdProxy.saveNode(new EtcdNode(key, values[0]));
 
@@ -315,13 +316,12 @@ public class TestEtcdProxy extends Assert {
         assertEquals(key, retrieved.getKey());
         assertEquals(values[0], retrieved.getValue());
 
-
-        for (int i=1; i<values.length; i++) {
+        for (int i = 1; i < values.length; i++) {
             EtcdNode previous = etcdProxy.updateNode(new EtcdNode(key, values[i]));
 
             assertNotNull(previous);
             assertEquals(key, previous.getKey());
-            assertEquals(values[i-1], previous.getValue());
+            assertEquals(values[i - 1], previous.getValue());
 
             retrieved = etcdProxy.getNode(key);
 
@@ -335,6 +335,7 @@ public class TestEtcdProxy extends Assert {
     public void testRemoveDirectoryTTL() throws Exception {
 
         if (etcdProxy.getVersion().contains("etcd 0.4")) {
+
             // skip this test
             return;
         }

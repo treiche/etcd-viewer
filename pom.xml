@@ -19,9 +19,10 @@
     <cxf.version>3.1.0</cxf.version>
     <jackson.version>2.5.3</jackson.version>
     <jetty.version>9.2.10.v20150310</jetty.version>
-    <slf4j.version>1.6.4</slf4j.version>
-    <log4j.version>1.2.16</log4j.version>
+    <slf4j.version>1.7.7</slf4j.version>
+    <logback.version>1.1.2</logback.version>
     <junit.version>4.11</junit.version>
+    <jersey.version>1.9</jersey.version>
 
     <bootstrap.version>3.3.4</bootstrap.version>
     <fontawesome.version>4.3.0</fontawesome.version>
@@ -142,16 +143,38 @@
       </exclusions>
     </dependency>
 
-    <!-- LOGGING DEPENDENCIES - LOG4J -->
+    <!-- JERSEY DEPENDENCIES -->
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-server</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-json</artifactId>
+      <version>${jersey.version}</version>
+    </dependency>
+
+    <!-- LOGGING DEPENDENCIES - LOGBACK -->
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
+      <artifactId>slf4j-api</artifactId>
       <version>${slf4j.version}</version>
     </dependency>
     <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${log4j.version}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>${logback.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <version>${logback.version}</version>
     </dependency>
 
     <!--  JUNIT DEPENDENCY FOR TESTING -->
@@ -169,6 +192,7 @@
       <version>${jetty.version}</version>
       <scope>provided</scope>
     </dependency>
+
   </dependencies>
 
   <profiles>
